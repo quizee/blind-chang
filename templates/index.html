@@ -51,8 +51,50 @@
             padding: 20px;
         }
 
+        .popular-post {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto 20px auto;
+
+            box-shadow: 0px 0px 3px 0px black;
+            padding: 20px;
+        }
+
+        .popular-post-title {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .lottery {
+            width: 100%;
+            max-width: 600px;
+            margin: auto auto 20px auto;
+
+            box-shadow: 0px 0px 3px 0px black;
+            padding: 20px 20px 30px 20px;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lottery-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .lottery-img {
+            font-size: 60px;
+        }
+
+        .lottery-body {
+            margin: 10px auto 30px auto;
+            text-align: center;
+        }
+
         .advertise {
-           margin-top: 20px;
+            margin-top: 20px;
         }
 
         .mypost > button {
@@ -137,12 +179,12 @@
         <div class="col-md-4">
             <div class="row">
                 <div class="advertise">
-                <img src="/static/100억.png" class="img-fluid" alt="Responsive image">
+                    <img src="/static/100억.png" class="img-fluid" alt="광고 사진">
                 </div>
             </div>
             <div class="row">
                 <div class="advertise">
-                <img src="/static/멱살캐리.png" class="img-fluid" alt="Responsive image">
+                    <img src="/static/멱살캐리.png" class="img-fluid" alt="광고 사진">
                 </div>
             </div>
         </div>
@@ -165,13 +207,57 @@
         </div>
         <div class="col-md-3">
             <div class="row">
-                <div class="advertise">
-                <img src="/static/100억.png" class="img-fluid" alt="Responsive image">
+                <div class="popular-post">
+                    <div class="popular-post-title">
+                        <p>실시간 인기글 Top 5</p>
+                    </div>
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                창 솔직히 어떰?
+                            </div>
+                            <span class="badge bg-primary rounded-pill">10</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                200만원 가치 있나?
+                            </div>
+                            <span class="badge bg-primary rounded-pill">6</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                19조 아이템 좋은듯
+                            </div>
+                            <span class="badge bg-primary rounded-pill">1</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                팀원 모집합니다
+                            </div>
+                            <span class="badge bg-primary rounded-pill">2</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="ms-2 me-auto">
+                                김밥 좀 그만주세요
+                            </div>
+                            <span class="badge bg-primary rounded-pill">9</span>
+                        </li>
+                    </ol>
                 </div>
             </div>
             <div class="row">
-                <div class="advertise">
-                <img src="/static/100억.png" class="img-fluid" alt="Responsive image">
+                <div class="lottery">
+                    <div class="lottery-title">
+                        행운을 뽑아보세요
+                    </div>
+                    <div class="lottery-img">
+                        🎁
+                    </div>
+                    <div class="lottery-body">
+                        스타벅스 기프티콘이<br>
+                        10개 남았어요
+                    </div>
+                    <button type="button" class="btn btn-primary">눌러보세요</button>
                 </div>
             </div>
         </div>
