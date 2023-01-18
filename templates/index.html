@@ -143,6 +143,14 @@
             })
         }
 
+        function range(start, stop) {
+            var a = [start], b = start;
+            while (b < stop) {
+                a.push(b += 1);
+            }
+            return a;
+        }
+
         function show_content(page_num) {
             $.ajax({
                 type: "GET",
@@ -150,7 +158,60 @@
                 data: {},
                 success: function (response) {
                     $('#post-list').empty();
+                    $('#button-list').empty();
                     let rows = response['posts']
+                    let current_page = page_num;
+                    let total_pages = Math.ceil(response['post_num'] / 5);
+                    let window = 3
+
+                    let start = current_page - window
+                    let end = current_page + window
+
+                    if(start <= 0){
+                        end = end - start + 1;
+                        start = 1;
+                    }
+                    if (end > total_pages){
+                        end = total_pages;
+                        start = Math.max(end - (window*2)+1, 1)
+                    }
+
+                    let buttons = range(start, end)
+                    console.log(buttons)
+
+                    let previous_disabled = ""
+                    let next_disabled = ""
+                    console.log(total_pages, page_num)
+
+                    if (current_page === 1) {
+                        previous_disabled = "disabled"
+                    }
+                    if (current_page === total_pages) {
+                        next_disabled = "disabled"
+                    }
+                    let first_button = `
+                        <li class="page-item ${previous_disabled}"><a class="page-link" href="javascript:show_content(${current_page - 1})" tabindex="-1"><</a>
+                    </li>`
+
+                    let last_button = `
+                        <li class="page-item ${next_disabled}"><a class="page-link" href="javascript:show_content(${current_page + 1})" tabindex="-1">></a>
+                    </li>
+                    `
+                    $('#button-list').append(first_button)
+                    // 앞부분
+                    for (let i = 0; i < buttons.length; i++) {
+                        let button_num = buttons[i]
+                        let active = ""
+                        if (button_num === current_page) {
+                            active = "active"
+                        }
+                        let button_html = `
+                            <li class="page-item ${active}"><a class="page-link" href="javascript:show_content(${button_num})">${button_num}</a></li>
+                        `
+                        $('#button-list').append(button_html)
+                    }
+                    $('#button-list').append(last_button)
+
                     for (let i = 0; i < rows.length; i++) {
                         let nick_name = rows[i]['nick_name'];
                         let content = rows[i]['content'];
@@ -273,16 +334,8 @@
             </div>
         </div>
         <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1"><</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">></a>
-                </li>
+            <ul class="pagination justify-content-center" id="button-list">
+
             </ul>
         </nav>
 
