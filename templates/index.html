@@ -168,6 +168,13 @@
                 }
             });
         }
+
+        $(document).ready(function () {
+            $("#lottery_btn").click(function () {
+                $("#myModal").modal();
+            });
+        });
+
     </script>
 </head>
 <body>
@@ -268,25 +275,30 @@
                         스타벅스 기프티콘이<br>
                         10개 남았어요
                     </div>
-                    <button type="button" class="btn btn-primary">눌러보세요</button>
+                    <button type="button" class="btn btn-primary" id="lottery_btn">
+                        눌러보세요
+                    </button>
                 </div>
             </div>
         </div>
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1"><</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">></a>
-                </li>
-            </ul>
-        </nav>
-
     </div>
+
+
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+                <a class="page-link" href="#" tabindex="-1"><</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#">></a>
+            </li>
+        </ul>
+    </nav>
+
+</div>
 
 
 </div>
