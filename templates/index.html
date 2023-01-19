@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-
+    <script src="https://kit.fontawesome.com/f3e69e304d.js" crossorigin="anonymous"></script>
     <title>블라인드 {창}</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
@@ -143,6 +143,14 @@
             })
         }
 
+        function range(start, stop) {
+            var a = [start], b = start;
+            while (b < stop) {
+                a.push(b += 1);
+            }
+            return a;
+        }
+
         function show_content(page_num) {
             $.ajax({
                 type: "GET",
@@ -150,18 +158,93 @@
                 data: {},
                 success: function (response) {
                     $('#post-list').empty();
+                    $('#button-list').empty();
                     let rows = response['posts']
+                    let current_page = page_num;
+                    let total_pages = Math.ceil(response['post_num'] / 5);
+                    let window = 3
+
+                    let start = current_page - window
+                    let end = current_page + window
+
+                    if (start <= 0) {
+                        end = end - start + 1;
+                        start = 1;
+                    }
+                    if (end > total_pages) {
+                        end = total_pages;
+                        start = Math.max(end - (window * 2) + 1, 1)
+                    }
+
+                    let buttons = range(start, end)
+                    console.log(buttons)
+
+                    let previous_disabled = ""
+                    let next_disabled = ""
+                    console.log(total_pages, page_num)
+
+                    if (current_page === 1) {
+                        previous_disabled = "disabled"
+                    }
+                    if (current_page === total_pages) {
+                        next_disabled = "disabled"
+                    }
+                    let first_button = `
+                        <li class="page-item ${previous_disabled}"><a class="page-link" href="javascript:show_content(${current_page - 1})" tabindex="-1"><</a>
+                    </li>`
+
+                    let last_button = `
+                        <li class="page-item ${next_disabled}"><a class="page-link" href="javascript:show_content(${current_page + 1})" tabindex="-1">></a>
+                    </li>
+                    `
+                    $('#button-list').append(first_button)
+                    // 앞부분
+                    for (let i = 0; i < buttons.length; i++) {
+                        let button_num = buttons[i]
+                        let active = ""
+                        if (button_num === current_page) {
+                            active = "active"
+                        }
+                        let button_html = `
+                            <li class="page-item ${active}"><a class="page-link" href="javascript:show_content(${button_num})">${button_num}</a></li>
+                        `
+                        $('#button-list').append(button_html)
+                    }
+                    $('#button-list').append(last_button)
+
                     for (let i = 0; i < rows.length; i++) {
                         let nick_name = rows[i]['nick_name'];
                         let content = rows[i]['content'];
                         let temp_html = `
                         <div class="card">
                             <div class="card-body">
+                              <h5 class="card-title">제곧내</h5>
+                              <p class="card-text">${content}</p>
+                              <p class="card-text"><small class="text-muted">3분전</small></p>
+                            </div>
+                            <div class="card-footer">
+                              <div class="container">
+                              <div class="row">
+                              <div class="col-md-4 d-flex justify-content-center">
+                                <i class="fa-regular fa-heart"><small class="text-muted"> 좋아요 </small></i>
+                                </div>
+                                <div class="col-md-4 d-flex justify-content-center">
+                                <i class="fa-regular fa-comment"><small class="text-muted"> 13 </small></i>
+                                </div>
+                                <div class="col-md-4 d-flex justify-content-center">
+                                <i class="fa fa-eye"><small class="text-muted"> 3 </small></i>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+
+
+                           <!-- <div class="card-body">
                                 <blockquote class="blockquote mb-0">
                                     <p>${content}</p>
                                     <footer class="blockquote-footer">${nick_name}</footer>
                                 </blockquote>
-                            </div>
+                            </div>-->
                         </div>`
                         $('#post-list').append(temp_html);
                     }
@@ -208,7 +291,7 @@
                 <div class="form-floating">
         <textarea class="form-control" placeholder="Leave a comment here" id="content"
                   style="height: 100px"></textarea>
-                    <label for="">솔직한 의견을 남겨주세요!</label>
+                    <label for="content">솔직한 의견을 남겨주세요!</label>
                 </div>
                 <button onclick="save_post()" type="button" class="btn btn-dark">마음의 소리 입력</button>
             </div>
@@ -268,27 +351,37 @@
                         스타벅스 기프티콘이<br>
                         10개 남았어요
                     </div>
-                    <button type="button" class="btn btn-primary">눌러보세요</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#luckyBox">눌러보세요</button>
                 </div>
             </div>
         </div>
         <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1"><</a>
-                </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">></a>
-                </li>
+            <ul class="pagination justify-content-center" id="button-list">
+
             </ul>
         </nav>
 
     </div>
-
-
 </div>
+
+<!-- Lucky Box Modal -->
+<div class="modal fade" id="luckyBox" tabindex="-1" aria-labelledby="luckyBoxLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="luckyBoxLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>

@@ -34,7 +34,7 @@ def blind_get():
     limit = 5
     offset = (page -1)* limit
     all_posts = list(db.posts.find({}, {'_id': False}).sort('post_id',pymongo.DESCENDING).limit(limit).skip(offset))
-    return jsonify({'posts': all_posts})
+    return jsonify({'posts': all_posts, 'post_num': len(list(db.posts.find({}, {'_id': False})))})
 
 
 if __name__ == '__main__':
