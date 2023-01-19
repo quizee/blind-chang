@@ -167,13 +167,13 @@
                     let start = current_page - window
                     let end = current_page + window
 
-                    if(start <= 0){
+                    if (start <= 0) {
                         end = end - start + 1;
                         start = 1;
                     }
-                    if (end > total_pages){
+                    if (end > total_pages) {
                         end = total_pages;
-                        start = Math.max(end - (window*2)+1, 1)
+                        start = Math.max(end - (window * 2) + 1, 1)
                     }
 
                     let buttons = range(start, end)
@@ -351,7 +351,7 @@
                         스타벅스 기프티콘이<br>
                         10개 남았어요
                     </div>
-                    <button type="button" class="btn btn-primary">눌러보세요</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#luckyBox">눌러보세요</button>
                 </div>
             </div>
         </div>
@@ -362,8 +362,26 @@
         </nav>
 
     </div>
-
-
 </div>
+
+<!-- Lucky Box Modal -->
+<div class="modal fade" id="luckyBox" tabindex="-1" aria-labelledby="luckyBoxLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="luckyBoxLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
