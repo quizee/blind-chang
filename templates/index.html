@@ -16,7 +16,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-
+    <script src="https://kit.fontawesome.com/f3e69e304d.js" crossorigin="anonymous"></script>
     <title>블라인드 {창}</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
@@ -218,11 +218,33 @@
                         let temp_html = `
                         <div class="card">
                             <div class="card-body">
+                              <h5 class="card-title">제곧내</h5>
+                              <p class="card-text">${content}</p>
+                              <p class="card-text"><small class="text-muted">3분전</small></p>
+                            </div>
+                            <div class="card-footer">
+                              <div class="container">
+                              <div class="row">
+                              <div class="col-md-4 d-flex justify-content-center">
+                                <i class="fa-regular fa-heart"><small class="text-muted"> 좋아요 </small></i>
+                                </div>
+                                <div class="col-md-4 d-flex justify-content-center">
+                                <i class="fa-regular fa-comment"><small class="text-muted"> 13 </small></i>
+                                </div>
+                                <div class="col-md-4 d-flex justify-content-center">
+                                <i class="fa fa-eye"><small class="text-muted"> 3 </small></i>
+                                </div>
+                                </div>
+                                </div>
+                            </div>
+
+
+                           <!-- <div class="card-body">
                                 <blockquote class="blockquote mb-0">
                                     <p>${content}</p>
                                     <footer class="blockquote-footer">${nick_name}</footer>
                                 </blockquote>
-                            </div>
+                            </div>-->
                         </div>`
                         $('#post-list').append(temp_html);
                     }
@@ -269,7 +291,7 @@
                 <div class="form-floating">
         <textarea class="form-control" placeholder="Leave a comment here" id="content"
                   style="height: 100px"></textarea>
-                    <label for="">솔직한 의견을 남겨주세요!</label>
+                    <label for="content">솔직한 의견을 남겨주세요!</label>
                 </div>
                 <button onclick="save_post()" type="button" class="btn btn-dark">마음의 소리 입력</button>
             </div>
