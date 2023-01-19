@@ -97,6 +97,14 @@
             margin-top: 20px;
         }
 
+        .more {
+            padding-bottom: 5px;
+            color: gray;
+            font-size: small;
+            padding-left: 20px;
+            cursor: pointer;
+        }
+
         .mypost > button {
             margin-top: 15px;
         }
@@ -111,11 +119,15 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
+
+        i {
+            cursor: pointer;
+        }
     </style>
     <script>
         $(document).ready(function () {
             set_num()
-            show_content(1)
+            show_post(1)
         });
 
         function randomIntFromInterval(min, max) { // min and max included
@@ -129,16 +141,71 @@
         function save_post() {
             let nick_name = $('#name').val();
             let content = $('#content').val();
+            let title = $('#post_title').val();
+
             $.ajax({
                 type: 'POST',
                 url: '/blind',
                 data: {
                     nick_name: nick_name,
-                    content: content
+                    content: content,
+                    title: title
                 },
                 success: function (response) {
                     alert(response['msg'])
                     window.location.reload()
+                }
+            });
+        }
+
+        function save_comment(post_id){
+            let comment = $('#comment-form').val();
+            let current_post_id = $('#postModal').data('current-post');
+            $.ajax({
+                type: 'POST',
+                url: '/blind/comment',
+                data: {
+                    comment: comment,
+                    post_id: current_post_id
+                },
+                success: function (response) {
+                    changeModal(post_id);
+                    $('#postModal').attr("aria-hidden", "false")
+                    alert(response['msg']);
+                }
+            });
+        }
+
+        function changeModal(post_id) {
+            alert(post_id)
+            $.ajax({
+                type: 'GET',
+                url: `/blind/comment?post_id=${post_id}`,
+                data: {},
+                success: function (response) {
+                    let post_author = response['nick_name']
+                    let content = response['content']
+                    let title = response['title']
+
+                    $('#post-title-modal').text(title);
+                    $('#post-author-modal').text(post_author);
+                    $('#post-content-modal').text(content);
+                    $('#postModal').data('current-post', post_id)
+
+                    let comments = response['comments'];
+                    for (let i = 0; i < comments.length; i++) {
+                        let comment_author = comments[i]['nick_name']
+                        let comment = comments[i]['comment']
+                        let comment_html = `
+                        <li class="list-group-item d-flex justify-content-between">
+                                <div class="ms-2 me-auto">
+                                    <small class="text-muted">${comment_author}</small>
+                                    <div>${comment}</div>
+                                </div>
+                            </li>
+                        `
+                        $('#comment_list').append(comment_html)
+                    }
                 }
             })
         }
@@ -151,12 +218,17 @@
             return a;
         }
 
-        function show_content(page_num) {
+        function show_post(page_num) {
             $.ajax({
                 type: "GET",
                 url: `/blind?page=${page_num}`,
                 data: {},
                 success: function (response) {
+                    let username = response['username']
+                    if(username !== ""){
+                        $('#name').val(username);
+                        $("#name").attr("disabled", true);
+                    }
                     $('#post-list').empty();
                     $('#button-list').empty();
                     let rows = response['posts']
@@ -215,12 +287,14 @@
                     for (let i = 0; i < rows.length; i++) {
                         let nick_name = rows[i]['nick_name'];
                         let content = rows[i]['content'];
+                        let title = rows[i]['title']
+                        let post_id = rows[i]['post_id']
                         let temp_html = `
-                        <div class="card">
+                        <div class="card" data-bs-toggle="modal" data-bs-target="#postModal" onclick="changeModal(${post_id})">
                             <div class="card-body">
-                              <h5 class="card-title">제곧내</h5>
-                              <p class="card-text">${content}</p>
-                              <p class="card-text"><small class="text-muted">3분전</small></p>
+                               <p class="card-text"><small class="text-muted">${nick_name}</small></p>
+                              <h5 class="card-title text-truncate" style="max-width: 330px;">${title}</h5>
+                              <span class="card-text d-inline-block text-truncate" style="max-width: 330px;">${content}</span>
                             </div>
                             <div class="card-footer">
                               <div class="container">
@@ -237,14 +311,6 @@
                                 </div>
                                 </div>
                             </div>
-
-
-                           <!-- <div class="card-body">
-                                <blockquote class="blockquote mb-0">
-                                    <p>${content}</p>
-                                    <footer class="blockquote-footer">${nick_name}</footer>
-                                </blockquote>
-                            </div>-->
                         </div>`
                         $('#post-list').append(temp_html);
                     }
@@ -284,9 +350,13 @@
         </div>
         <div class="col-md-6">
             <div class="mypost">
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-2">
                     <input type="text" class="form-control" id="name" placeholder="url">
                     <label for="name">닉네임</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="post_title" placeholder="url">
+                    <label for="post_title">제목</label>
                 </div>
                 <div class="form-floating">
         <textarea class="form-control" placeholder="Leave a comment here" id="content"
@@ -351,7 +421,9 @@
                         스타벅스 기프티콘이<br>
                         10개 남았어요
                     </div>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#luckyBox">눌러보세요</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#luckyBox">
+                        눌러보세요
+                    </button>
                 </div>
             </div>
         </div>
@@ -366,21 +438,66 @@
 
 <!-- Lucky Box Modal -->
 <div class="modal fade" id="luckyBox" tabindex="-1" aria-labelledby="luckyBoxLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="luckyBoxLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="luckyBoxLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
     </div>
-  </div>
+</div>
+
+<!-- Post Modal -->
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true" data-current-post="">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="post-title-modal">제목</h5>
+                <small class="text-muted" style="margin-left: 20px; margin-bottom: 5px"
+                       id="post-author-modal">글쓴이 </small>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" style="padding-bottom: 15px">
+                        <div class="me-auto" id="post-content-modal">내용</div>
+                    </div>
+                    <div class="row">
+                        <ul class="list-group list-group-flush" id="comment_list">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <div class="ms-2 me-auto">
+                                    <small class="text-muted">글쓴이1</small>
+                                    <div>그건 선넘었지</div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="text" class="form-control" id="comment-form"
+                                   placeholder="댓글을 남겨주세요.">
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary" onclick="save_comment()">등록</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
