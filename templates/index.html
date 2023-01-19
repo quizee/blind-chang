@@ -111,11 +111,24 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .modal-title w-100 {
+            font-weight: bold;
+        }
     </style>
     <script>
         $(document).ready(function () {
             set_num()
             show_content(1)
+            get_randint()
         });
 
         function randomIntFromInterval(min, max) { // min and max included
@@ -251,6 +264,39 @@
                 }
             });
         }
+
+        function get_randint() {
+            $.ajax({
+                type: 'GET',
+                url: '/randint',
+                data: {},
+                success: function (response) {
+                    $('#luckyBoxTitle').empty()
+                    $('#luckyBoxBody').empty()
+                    let lucky_num = response["lucky_num"]
+                    let lucky_title = "축하합니다"
+                    let lucky_body = `
+                        <img class="card-img-top" src="/static/starbucks.jpg" style="width:250px; height:250px;" alt="광고">
+                        <br>
+                        <br>
+                        스타벅스 기프티콘 당첨되셨어요.`
+                    let unlucky_title = "아쉽군요"
+                    let unlucky_body = `
+                        <img class="card-img-top" src="/static/tears.png" style="width:250px; height:250px;" alt="광고">
+                        <br>
+                        <br>
+                        꽝입니다.`
+                    if (lucky_num == 1) {
+                        $('#luckyBoxTitle').append(lucky_title)
+                        $('#luckyBoxBody').append(lucky_body)
+                    }
+                    else {
+                        $('#luckyBoxTitle').append(unlucky_title)
+                        $('#luckyBoxBody').append(unlucky_body)
+                    }
+                }
+            });
+        }
     </script>
 </head>
 <body>
@@ -351,7 +397,10 @@
                         스타벅스 기프티콘이<br>
                         10개 남았어요
                     </div>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#luckyBox">눌러보세요</button>
+                    <button onclick="get_randint()" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#luckyBox">
+                        눌러보세요
+                    </button>
                 </div>
             </div>
         </div>
@@ -366,21 +415,20 @@
 
 <!-- Lucky Box Modal -->
 <div class="modal fade" id="luckyBox" tabindex="-1" aria-labelledby="luckyBoxLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="luckyBoxLabel">Modal title</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100" id="luckyBoxTitle"></h5>
+                <!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+            </div>
+            <div class="modal-body">
+                <p id="luckyBoxBody"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 </body>

@@ -1,6 +1,7 @@
 import pymongo
 from flask import Flask, render_template, request, jsonify
 from pymongo import MongoClient
+import random
 client = MongoClient('mongodb+srv://test:sparta@cluster0.csmowq9.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 app = Flask(__name__)
@@ -36,6 +37,11 @@ def blind_get():
     all_posts = list(db.posts.find({}, {'_id': False}).sort('post_id',pymongo.DESCENDING).limit(limit).skip(offset))
     return jsonify({'posts': all_posts, 'post_num': len(list(db.posts.find({}, {'_id': False})))})
 
+@app.route("/randint", methods=["GET"])
+def randint_get():
+    # 확률 : 1/2
+    lucky_num = random.randint(1,100)
+    return jsonify({'lucky_num': lucky_num})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5001, debug=True)
