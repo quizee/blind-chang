@@ -120,6 +120,18 @@
             margin-bottom: 10px;
         }
 
+        .modal-body-lucky {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .modal-title-lucky w-100 {
+            font-weight: bold;
+        }
+
         i {
             cursor: pointer;
         }
@@ -128,6 +140,7 @@
         $(document).ready(function () {
             set_num()
             show_post(1)
+            get_randint()
         });
 
         function randomIntFromInterval(min, max) { // min and max included
@@ -229,18 +242,9 @@
                 url: `/blind?page=${page_num}`,
                 data: {},
                 success: function (response) {
-                    let username = response['username']
-                    if (username !== "") {
-                        $('#name').val(username);
-                        $("#name").attr("disabled", true);
-                    }
                     $('#post-list').empty();
                     $('#button-list').empty();
-                    $('#popular_list').empty();
                     let rows = response['posts']
-                    let popular_posts = response['popular_posts']
-
-                    // paging 시작
                     let current_page = page_num;
                     let total_pages = Math.ceil(response['post_num'] / 5);
                     let window = 3
@@ -271,7 +275,7 @@
                         next_disabled = "disabled"
                     }
                     let first_button = `
-                        <li class="page-item ${previous_disabled}"><a class="page-link" href="javascript:show_content(${current_page - 1})" tabindex="-1"><</a>
+                        <li class="page-item ${previous_disabled}"><a class="page-link" href="javascript:show_post(${current_page - 1})" tabindex="-1"><</a>
                     </li>`
 
                     let last_button = `
@@ -343,6 +347,39 @@
                             </div>
                         </div>`
                         $('#post-list').append(temp_html);
+                    }
+                }
+            });
+        }
+
+        function get_randint() {
+            $.ajax({
+                type: 'GET',
+                url: '/randint',
+                data: {},
+                success: function (response) {
+                    $('#luckyBoxTitle').empty()
+                    $('#luckyBoxBody').empty()
+                    let lucky_num = response["lucky_num"]
+                    let lucky_title = "축하합니다"
+                    let lucky_body = `
+                        <img class="card-img-top" src="/static/starbucks.jpg" style="width:250px; height:250px;" alt="광고">
+                        <br>
+                        <br>
+                        스타벅스 기프티콘 당첨되셨어요.`
+                    let unlucky_title = "아쉽군요"
+                    let unlucky_body = `
+                        <img class="card-img-top" src="/static/tears.png" style="width:250px; height:250px;" alt="광고">
+                        <br>
+                        <br>
+                        꽝입니다.`
+                    if (lucky_num == 1) {
+                        $('#luckyBoxTitle').append(lucky_title)
+                        $('#luckyBoxBody').append(lucky_body)
+                    }
+                    else {
+                        $('#luckyBoxTitle').append(unlucky_title)
+                        $('#luckyBoxBody').append(unlucky_body)
                     }
                 }
             });
@@ -475,6 +512,10 @@
                         조금만 기다려주세요! 🤓<br>
                         <small class="text-muted">출시 예정일: 1/25 </small>
                     </div>
+                    <button onclick="get_randint()" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#luckyBox">
+                        눌러보세요
+                    </button>
                 </div>
             </div>
 
@@ -493,16 +534,15 @@
 <div class="modal fade" id="luckyBox" tabindex="-1" aria-labelledby="luckyBoxLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="luckyBoxLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100 modal-title-lucky" id="luckyBoxTitle"></h5>
+                <!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
             </div>
-            <div class="modal-body">
-                ...
+            <div class="modal-body modal-body-lucky">
+                <p id="luckyBoxBody"></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>
     </div>

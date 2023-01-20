@@ -1,7 +1,7 @@
 import pymongo
 from flask import Flask, render_template, request, jsonify, session, redirect
 from pymongo import MongoClient
-
+import random
 client = MongoClient('mongodb+srv://test:sparta@cluster0.csmowq9.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 app = Flask(__name__)
@@ -73,6 +73,11 @@ def show_one_post():
     title = post['title']
     return jsonify({'comments': all_comments, 'nick_name': nick_name, 'content': content, 'title': title})
 
+@app.route("/randint", methods=["GET"])
+def randint_get():
+    # 확률 : 1/100
+    lucky_num = random.randint(1,100)
+    return jsonify({'lucky_num': lucky_num})
 
 if __name__ == '__main__':
     app.debug = True
