@@ -244,6 +244,8 @@
                 success: function (response) {
                     $('#post-list').empty();
                     $('#button-list').empty();
+                    $('#popular_list').empty();
+                    let popular_posts = response['popular_posts']
                     let rows = response['posts']
                     let current_page = page_num;
                     let total_pages = Math.ceil(response['post_num'] / 5);
@@ -323,6 +325,7 @@
                         let post_id = rows[i]['post_id']
                         let views = rows[i]['views']
                         let comments = rows[i]['comments']
+                        console.log(nick_name, content, title)
                         let temp_html = `
                         <div class="card" data-bs-toggle="modal" data-bs-target="#postModal" onclick="changeModal(${post_id})">
                             <div class="card-body">
@@ -512,10 +515,6 @@
                         조금만 기다려주세요! 🤓<br>
                         <small class="text-muted">출시 예정일: 1/25 </small>
                     </div>
-                    <button onclick="get_randint()" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#luckyBox">
-                        눌러보세요
-                    </button>
                 </div>
             </div>
 
