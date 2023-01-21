@@ -243,11 +243,18 @@
                 url: `/blind?page=${page_num}`,
                 data: {},
                 success: function (response) {
+                    let username = response['username']
+                    if (username !== "") {
+                        $('#name').val(username);
+                        $("#name").attr("disabled", true);
+                    }
+
                     $('#post-list').empty();
                     $('#button-list').empty();
                     $('#popular_list').empty();
                     let popular_posts = response['popular_posts']
                     let rows = response['posts']
+
                     let current_page = page_num;
                     let total_pages = Math.ceil(response['post_num'] / 5);
                     let window = 3
