@@ -30,8 +30,9 @@
             width: 100%;
             height: 300px;
 
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F74eaf902-b158-444e-8348-c92edd20d043%2FMask_group_(3).png&blockId=4c4b7636-3a3f-4333-8e38-b30fa20b5f91&width=3600');
-            background-position: center 30%;
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url('/static/banner.png');
+            /*background-position: center 30%;*/
+            background-position: center;
             background-size: cover;
 
             color: white;
@@ -365,17 +366,15 @@
                     $('#luckyBoxBody').empty()
                     let lucky_num = response["lucky_num"]
                     let lucky_title = "축하합니다"
-                    let lucky_body = `
-                        <img class="card-img-top" src="/static/starbucks.jpg" style="width:250px; height:250px;" alt="광고">
-                        <br>
-                        <br>
-                        스타벅스 기프티콘 당첨되셨어요.`
+                    let lucky_body = `<img class="card-img-top" src="/static/success.png" style="width:250px; height:250px;" alt="광고">`
+                        // <br>
+                        // <br>
+                        // 스타벅스 기프티콘 당첨되셨어요.`
                     let unlucky_title = "아쉽군요"
-                    let unlucky_body = `
-                        <img class="card-img-top" src="/static/tears.png" style="width:250px; height:250px;" alt="광고">
-                        <br>
-                        <br>
-                        꽝입니다.`
+                    let unlucky_body = `<img class="card-img-top" src="/static/fail.png" style="width:250px; height:250px;" alt="광고">`
+                        // <br>
+                        // <br>
+                        // 꽝입니다.`
                     if (lucky_num == 1) {
                         $('#luckyBoxTitle').append(lucky_title)
                         $('#luckyBoxBody').append(lucky_body)
@@ -391,8 +390,8 @@
 </head>
 <body>
 <div class="mypic">
-    <h1>블라인드 {창}</h1>
-    <p>현재 접속 인원: <span id="temp">36</span>명</p>
+<!--    <h1>블라인드 {창}</h1>-->
+<!--    <p>현재 접속 인원: <span id="temp">36</span>명</p>-->
 </div>
 
 <div class="container">
@@ -401,41 +400,39 @@
             <div class="row">
                 <div class="card advertise" style="width: 18rem;">
                     <div class="card-body">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <h5 class="card-title">광고주님들을 기다립니다</h5>
+                        <p class="card-text">창 최대 커뮤니티에서 대표님의 사업장·팀빌딩·아이템을 홍보해보세요!</p>
+                        <a href="https://sparta-chang.slack.com/team/U04DM8WSVT7" target="_blank" class="btn btn-primary">19조에 연락하기</a>
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="card advertise" style="width: 18rem;">
-                    <img class="card-img-top" src="/static/100억.png" alt="광고">
+                    <img class="card-img-top" src="/static/ad1.jpg" alt="광고">
                     <div class="card-body">
-                        <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                            content.</p>
+                        <p class="card-text">블라인드를 {창} 에 적용시킨 익명 플랫폼 - 당연히 익명이고, 게다가 무료입니다!</p>
 
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="card advertise" style="width: 18rem;">
-                    <img class="card-img-top" src="/static/다운로드.jpeg" alt="광고">
+                    <img class="card-img-top" src="/static/ad1.jpg" alt="광고">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This card has supporting text below as a natural lead-in to additional
-                            content.</p>
-                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                        <h5 class="card-title">웹사이트 제작 비법 공개</h5>
+                        <p class="card-text">19조로 연락주시면 가감없이 공개하겠습니다!</p>
+<!--                        <a href="https://chang.spartacodingclub.kr/profiles/63c2707bb13e0535f4afe7d1" target="_blank" class="btn btn-primary">이지윤 프로필 보기</a>-->
+<!--                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="card advertise" style="width: 18rem;">
-                    <img src="/static/fashion.jpg" class="card-img-top" alt="광고">
+<!--                    <img src="/static/ad1.jpg" class="card-img-top" alt="광고">-->
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <h5 class="card-title">법조 분야의 창업을 꿈꾸시는 분</h5>
+                        <p class="card-text">업무툴 관련 사업에 관심 있으신 분의 연락을 기다립니다.</p>
+                        <a href="https://chang.spartacodingclub.kr/profiles/63c234027d542f60689e9b1b" target="_blank" class="btn btn-primary">양다솔 프로필 보기</a>
                     </div>
                 </div>
             </div>
@@ -484,7 +481,7 @@
                         스타벅스 기프티콘이<br>
                         10개 남았어요
                     </div>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#luckyBox">
+                    <button onclick="get_randint()" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#luckyBox">
                         눌러보세요
                     </button>
                 </div>
