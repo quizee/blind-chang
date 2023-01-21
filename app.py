@@ -76,7 +76,7 @@ def show_one_post():
 @app.route("/randint", methods=["GET"])
 def randint_get():
     # 확률 : 1/100
-    lucky_num = random.randint(1,100)
+    lucky_num = random.randint(1,10000)
     return jsonify({'lucky_num': lucky_num})
 
 if __name__ == '__main__':
