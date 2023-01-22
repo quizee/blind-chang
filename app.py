@@ -32,7 +32,7 @@ def blind_post():
 def blind_comment():
     post_id = int(request.form['post_id'])
     comment = request.form['comment']
-    nick_name = session.get('username','')
+    nick_name = request.form['nick_name']
     doc = {'nick_name': nick_name, 'comment': comment, 'post_id': post_id}
     db.comments.insert_one(doc)
 

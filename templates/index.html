@@ -160,6 +160,19 @@
             let nick_name = $('#name').val();
             let content = $('#content').val();
             let title = $('#post_title').val();
+            if (content === "") {
+                alert("내용칸이 비어있네요!😮 어떤 얘기도 좋아요 ")
+                return
+            }
+            if (nick_name === ""){
+                alert("닉네임을 작성해주세요! 익명보장되니깐요 😉")
+                return
+            }
+
+            if (title === ""){
+                alert("제목을 깜빡하신 것 같습니다 대표님😎")
+                return
+            }
 
             $.ajax({
                 type: 'POST',
@@ -179,7 +192,13 @@
         function save_comment() {
             let comment = $('#comment-form').val();
             let current_post_id = $('#postModal').data('current-post');
+            let nickname = $('#nickname-form').val();
             if (comment === "") {
+                alert("댓글칸이 비어있네요 대표님!")
+                return
+            }
+            if (nickname === ""){
+                alert("닉네임칸이 비어있네요 대표님!")
                 return
             }
             $.ajax({
@@ -187,7 +206,8 @@
                 url: '/blind/comment',
                 data: {
                     comment: comment,
-                    post_id: current_post_id
+                    post_id: current_post_id,
+                    nick_name: nickname
                 },
                 success: function (response) {
                     //alert(response['msg']);
@@ -263,6 +283,7 @@
                     let username = response['username']
                     if (username !== "") {
                         $('#name').val(username);
+                        $('#nickname-form').val(username);
                         //$("#name").attr("disabled", true);
                     }
 
@@ -476,8 +497,8 @@
                 <div class="form-floating">
         <textarea class="form-control" placeholder="Leave a comment here" id="content"
                   style="height: 100px"></textarea>
-                    <label for="content">솔직한 의견을 남겨주세요!</label>
-                </div>
+                    <label for="content">어떤 얘기도 좋아요. 솔직한 의견을 남겨주세요!</label>
+                </div>한
                 <button onclick="save_post()" type="button" class="btn btn-dark">마음의 소리 입력</button>
             </div>
             <div class="mycards" id="post-list">
@@ -596,11 +617,15 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-2" style="margin-right: 0px; padding-right: 0px">
+                            <input type="text" class="form-control" id="nickname-form"
+                                   placeholder="닉네임">
+                        </div>
+                        <div class="col-md-8" style="margin-right: 0px; padding-right: 0px">
                             <input type="text" class="form-control" id="comment-form"
                                    placeholder="댓글을 남겨주세요.">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2" style="margin-right: 0px; padding-right: 0px">
                             <button type="button" class="btn btn-primary" onclick="save_comment()">등록</button>
                         </div>
                     </div>
