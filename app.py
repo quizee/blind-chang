@@ -18,9 +18,10 @@ def blind_post():
     nick_name = request.form['nick_name']
     content = request.form['content']
     title = request.form['title']
-    all_posts = list(db.posts.find({}, {'_id': False}))
-    count = len(all_posts) + 1
-    doc = {'nick_name': nick_name, 'content': content, 'post_id': count, 'title': title, 'views': 0, 'comments': 0}
+    all_posts = list(db.posts.find({}, {'_id': False}).sort('post_id', pymongo.DESCENDING))
+    last_index = int(all_posts[0]['post_id'])
+    post_id = last_index + 1
+    doc = {'nick_name': nick_name, 'content': content, 'post_id': post_id, 'title': title, 'views': 0, 'comments': 0}
     db.posts.insert_one(doc)
 
     session['username'] = nick_name # 테스트 필요
@@ -32,7 +33,7 @@ def blind_post():
 def blind_comment():
     post_id = int(request.form['post_id'])
     comment = request.form['comment']
-    nick_name = session.get('username','')
+    nick_name = request.form['nick_name']
     doc = {'nick_name': nick_name, 'comment': comment, 'post_id': post_id}
     db.comments.insert_one(doc)
 
@@ -53,6 +54,13 @@ def blind_get():
     popular_posts = list(db.posts.find({},{'_id': False}).sort([('views', pymongo.DESCENDING), ('comments', pymongo.DESCENDING)]).limit(limit))
     return jsonify({'posts': all_posts, 'popular_posts': popular_posts, 'post_num': len(list(db.posts.find({}, {'_id': False}))), 'username': username})
 
+@app.route("/blind/acc", methods= ["GET"])
+def acc_get():
+    all_posts = list(db.posts.find({}, {'_id': False}).sort('post_id', pymongo.DESCENDING))
+    total_views = 0
+    for post in all_posts:
+        total_views = total_views + int(post['views'])
+    return jsonify({'total_views': total_views})
 
 @app.route("/blind/one-post", methods=["GET"])
 def show_one_post():

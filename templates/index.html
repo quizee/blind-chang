@@ -145,6 +145,7 @@
             set_num()
             show_post(1)
             get_randint()
+            show_acc()
         });
 
         function randomIntFromInterval(min, max) { // min and max included
@@ -159,6 +160,19 @@
             let nick_name = $('#name').val();
             let content = $('#content').val();
             let title = $('#post_title').val();
+            if (content === "") {
+                alert("내용칸이 비어있네요!😮 어떤 얘기도 좋아요 ")
+                return
+            }
+            if (nick_name === ""){
+                alert("닉네임을 작성해주세요! 익명보장되니깐요 😉")
+                return
+            }
+
+            if (title === ""){
+                alert("제목을 깜빡하신 것 같습니다 대표님😎")
+                return
+            }
 
             $.ajax({
                 type: 'POST',
@@ -178,7 +192,13 @@
         function save_comment() {
             let comment = $('#comment-form').val();
             let current_post_id = $('#postModal').data('current-post');
+            let nickname = $('#nickname-form').val();
             if (comment === "") {
+                alert("댓글칸이 비어있네요 대표님!")
+                return
+            }
+            if (nickname === ""){
+                alert("닉네임칸이 비어있네요 대표님!")
                 return
             }
             $.ajax({
@@ -186,7 +206,8 @@
                 url: '/blind/comment',
                 data: {
                     comment: comment,
-                    post_id: current_post_id
+                    post_id: current_post_id,
+                    nick_name: nickname
                 },
                 success: function (response) {
                     //alert(response['msg']);
@@ -240,6 +261,19 @@
             return a;
         }
 
+        function show_acc() {
+            $.ajax({
+                type: "GET",
+                url: `/blind/acc`,
+                data: {},
+                success: function (response) {
+                    let total_views = response['total_views']
+                    $('#acc_num').text(total_views)
+                }
+
+            })
+        }
+
         function show_post(page_num) {
             $.ajax({
                 type: "GET",
@@ -249,6 +283,7 @@
                     let username = response['username']
                     if (username !== "") {
                         $('#name').val(username);
+                        $('#nickname-form').val(username);
                         //$("#name").attr("disabled", true);
                     }
 
@@ -401,8 +436,9 @@
 <body>
 <div class="mypic">
     <h1 style="font-size:60px" >블라인드{창}</h1>
-    <h4>"소곤소곤"</h4>
-<!--    <p>현재 접속 인원: <span id="temp">36</span>명</p>-->
+    <br>
+<!--    <h4>"소곤소곤"</h4>-->
+    <p>현재 접속 중인 인원: <span id="temp">36</span>명 / 누적 조회수: <span id="acc_num">36</span></p>
 </div>
 
 <div class="container">
@@ -461,7 +497,7 @@
                 <div class="form-floating">
         <textarea class="form-control" placeholder="Leave a comment here" id="content"
                   style="height: 100px"></textarea>
-                    <label for="content">솔직한 의견을 남겨주세요!</label>
+                    <label for="content">어떤 얘기도 좋아요. 솔직한 의견을 남겨주세요!</label>
                 </div>
                 <button onclick="save_post()" type="button" class="btn btn-dark">마음의 소리 입력</button>
             </div>
@@ -581,11 +617,15 @@
             <div class="modal-footer">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-2" style="margin-right: 0px; padding-right: 0px">
+                            <input type="text" class="form-control" id="nickname-form"
+                                   placeholder="닉네임">
+                        </div>
+                        <div class="col-md-8" style="margin-right: 0px; padding-right: 0px">
                             <input type="text" class="form-control" id="comment-form"
                                    placeholder="댓글을 남겨주세요.">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2" style="margin-right: 0px; padding-right: 0px">
                             <button type="button" class="btn btn-primary" onclick="save_comment()">등록</button>
                         </div>
                     </div>
