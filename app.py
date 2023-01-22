@@ -53,6 +53,13 @@ def blind_get():
     popular_posts = list(db.posts.find({},{'_id': False}).sort([('views', pymongo.DESCENDING), ('comments', pymongo.DESCENDING)]).limit(limit))
     return jsonify({'posts': all_posts, 'popular_posts': popular_posts, 'post_num': len(list(db.posts.find({}, {'_id': False}))), 'username': username})
 
+@app.route("/blind/acc", methods= ["GET"])
+def acc_get():
+    all_posts = list(db.posts.find({}, {'_id': False}).sort('post_id', pymongo.DESCENDING))
+    total_views = 0
+    for post in all_posts:
+        total_views = total_views + int(post['views'])
+    return jsonify({'total_views': total_views})
 
 @app.route("/blind/one-post", methods=["GET"])
 def show_one_post():

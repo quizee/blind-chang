@@ -145,6 +145,7 @@
             set_num()
             show_post(1)
             get_randint()
+            show_acc()
         });
 
         function randomIntFromInterval(min, max) { // min and max included
@@ -238,6 +239,19 @@
                 a.push(b += 1);
             }
             return a;
+        }
+
+        function show_acc() {
+            $.ajax({
+                type: "GET",
+                url: `/blind/acc`,
+                data: {},
+                success: function (response) {
+                    let total_views = response['total_views']
+                    $('#acc_num').text(total_views)
+                }
+
+            })
         }
 
         function show_post(page_num) {
@@ -401,8 +415,9 @@
 <body>
 <div class="mypic">
     <h1 style="font-size:60px" >블라인드{창}</h1>
-    <h4>"소곤소곤"</h4>
-<!--    <p>현재 접속 인원: <span id="temp">36</span>명</p>-->
+    <br>
+<!--    <h4>"소곤소곤"</h4>-->
+    <p>현재 접속 중인 인원: <span id="temp">36</span>명 / 누적 조회수: <span id="acc_num">36</span></p>
 </div>
 
 <div class="container">
