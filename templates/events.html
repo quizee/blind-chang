@@ -1,0 +1,85 @@
+<div class="row">
+    <div class="lottery">
+        <div class="lottery-title">
+            행운을 뽑아보세요
+        </div>
+        <div class="lottery-img">
+            🎁
+        </div>
+        <div class="lottery-body">
+            블라인드 {창}이 여러분들에게 오늘 하루 딱 <strong>3장</strong>의 스타벅스 쿠폰을 쏩니다!
+        </div>
+        <button onclick="get_randint()" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#luckyBox">
+            눌러보세요
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="fortune">
+        <div class="fortune-title">
+            포춘쿠키
+        </div>
+        <div class="fortune-img">
+            🥠
+        </div>
+        <div class="fortune-body">
+            오늘 나의 운은?
+        </div>
+        <button onclick="get_fortune()" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#fortuneBox">
+            알려주세요
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="lottery">
+        <div class="lottery-title">
+            what comes next?!!
+        </div>
+        <div class="lottery-img">
+            ？
+        </div>
+        <div class="lottery-body">
+            조금만 기다려주세요! 🤓<br>
+            <small class="text-muted">출시 예정일: 1/25 </small>
+        </div>
+    </div>
+</div>
+
+
+<!-- Lucky Box Modal -->
+<div class="modal fade" id="luckyBox" tabindex="-1" aria-labelledby="luckyBoxLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100 modal-title-lucky" id="luckyBoxTitle"></h5>
+                <!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+            </div>
+            <div class="modal-body modal-body-lucky">
+                <p id="luckyBoxBody"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fortune Box Modal -->
+<div class="modal fade" id="fortuneBox" tabindex="-1" aria-labelledby="fortuneBoxLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title w-100" id="fortuneBoxTitle">포춘쿠키 가라사대...</h5>
+                <!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+            </div>
+            <div class="modal-body modal-body-fortune">
+                <p id="fortuneBoxBody"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>

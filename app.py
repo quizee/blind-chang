@@ -14,6 +14,32 @@ app.secret_key = "super secret key"
 def home():
     return render_template('index.html')
 
+@app.route('/pc')
+def pc():
+    return render_template('pc.html')
+
+@app.route('/mobile')
+def mobile():
+    return render_template('mobile.html')
+
+@app.route('/ads')
+def ads():
+    return render_template('ads.html')
+
+@app.route('/posts')
+def posts():
+    return render_template('posts.html')
+
+@app.route('/populars')
+def populars():
+    return render_template('populars.html')
+
+
+@app.route('/events')
+def events():
+    return render_template('events.html')
+
+
 
 @app.route("/blind", methods=["POST"])
 def blind_post():
