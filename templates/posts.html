@@ -1,0 +1,70 @@
+<div class="mypost">
+    <div class="form-floating mb-2">
+        <input type="text" class="form-control" id="name" placeholder="url">
+        <label for="name">닉네임</label>
+    </div>
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="post_title" placeholder="url">
+        <label for="post_title">제목</label>
+    </div>
+    <div class="form-floating">
+        <textarea class="form-control" placeholder="Leave a comment here" id="content"
+                  style="height: 100px"></textarea>
+        <label for="content">어떤 얘기도 좋아요. 솔직한 의견을 남겨주세요!</label>
+    </div>
+    <button onclick="save_post()" type="button" class="btn btn-dark">마음의 소리 입력</button>
+</div>
+<div class="mycards" id="post-list">
+    <!-- 댓글 삽입 -->
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center" id="button-list">
+
+    </ul>
+</nav>
+
+<!-- Post Modal -->
+<div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true"
+     data-current-post="">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="post-title-modal">제목</h5>
+                <small class="text-muted" style="margin-left: 15px; margin-bottom: 5px"
+                       id="post-author-modal">글쓴이 </small>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row" style="padding-bottom: 15px">
+                        <div class="me-auto" id="post-content-modal">내용</div>
+                    </div>
+                    <div class="row">
+                        <ul class="list-group list-group-flush" id="comment_list">
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-2" style="margin-right: 0px; padding-right: 0px">
+                            <input type="text" class="form-control" id="nickname-form"
+                                   placeholder="닉네임">
+                        </div>
+                        <div class="col-md-8" style="margin-right: 0px; padding-right: 0px">
+                            <input type="text" class="form-control" id="comment-form"
+                                   placeholder="댓글을 남겨주세요.">
+                        </div>
+                        <div class="col-md-2" style="margin-right: 0px; padding-right: 0px">
+                            <button type="button" class="btn btn-primary" onclick="save_comment()">등록</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
