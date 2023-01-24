@@ -28,20 +28,26 @@
     <script src="{{url_for('static', filename='js/save.js')}}"></script>
     <script src="{{url_for('static', filename='js/view.js')}}"></script>
     <script>
+        function load_elements() {
+            $('#ads').load("ads");
+            $('#posts').load("posts");
+            $('#populars').load("populars");
+            $('#events').load("events");
+        }
+
         $(document).ready(function () {
             set_num()
             show_post(1)
             get_randint()
             show_acc()
             if (Mobile()) {
-                $('#posts').load("posts");
-                $('#populars').load("populars");
-                $('#events').load("events");
+                $('#main_content').load("mobile", function () {
+                    load_elements();
+                })
             } else {
-                $('#ads').load("ads");
-                $('#posts').load("posts");
-                $('#populars').load("populars");
-                $('#events').load("events");
+                $('#main_content').load("pc", function () {
+                    load_elements();
+                })
             }
         });
     </script>
@@ -55,26 +61,8 @@
     <p>현재 접속 중인 인원: <span id="people_now">36</span>명 / 누적 조회수: <span id="acc_num">36</span></p>
 </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3" id="ads">
+<div id="main_content">
 
-        </div>
-        <div class="col-md-6" id="posts">
-
-        </div>
-        <div class="col-md-3">
-            <div class="row" id="populars">
-
-            </div>
-            <div id="events">
-
-            </div>
-
-        </div>
-
-
-    </div>
 </div>
 
 
