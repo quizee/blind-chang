@@ -1,52 +1,46 @@
-<div class="row">
-    <div class="lottery">
-        <div class="lottery-title">
-            행운을 뽑아보세요
-        </div>
-        <div class="lottery-img">
-            🎁
-        </div>
-        <div class="lottery-body">
-            블라인드 {창}이 여러분들에게 오늘 하루 딱 <strong>3장</strong>의 스타벅스 쿠폰을 쏩니다!
-        </div>
-        <button onclick="get_randint()" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#luckyBox">
-            눌러보세요
-        </button>
-    </div>
-</div>
-<div class="row">
-    <div class="fortune">
-        <div class="fortune-title">
-            포춘쿠키
-        </div>
-        <div class="fortune-img">
-            🥠
-        </div>
-        <div class="fortune-body">
-            오늘 나의 운은?
-        </div>
-        <button onclick="get_fortune()" type="button" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#fortuneBox">
-            알려주세요
-        </button>
-    </div>
-</div>
-<div class="row">
-    <div class="lottery">
-        <div class="lottery-title">
-            what comes next?!!
-        </div>
-        <div class="lottery-img">
-            ？
-        </div>
-        <div class="lottery-body">
-            조금만 기다려주세요! 🤓<br>
-            <small class="text-muted">출시 예정일: 1/25 </small>
+<div class="events">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">스타벅스 기프티콘</h5>
+            <div class="events-emoji">☕</div>
+            <div class="events-body">
+                <strong>0.1%</strong> 확률로 스타벅스 기프티콘<br>
+                무제한 시도 가능
+            </div>
+            <button onclick="get_randint()" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#luckyBox">
+                지금 도전
+            </button>
         </div>
     </div>
 </div>
-
+<div class="events">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">포춘쿠키</h5>
+            <div class="events-emoji">🥠</div>
+            <div class="events-body">
+                오늘 나의 운은?
+            </div>
+            <button onclick="get_fortune()" type="button" class="btn btn-primary" data-bs-toggle="modal"
+                    data-bs-target="#fortuneBox">
+                알려주세요
+            </button>
+        </div>
+    </div>
+</div>
+<div class="events">
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <img class="card-img-top" src="/static/balance0.png" alt="광고">
+            <p><br>To Be Continued</p>
+<!--            <button onclick="get_fortune()" type="button" class="btn btn-primary" data-bs-toggle="modal"-->
+<!--                    data-bs-target="#fortuneBox">-->
+<!--                지금 시작-->
+<!--            </button>-->
+        </div>
+    </div>
+</div>
 
 <!-- Lucky Box Modal -->
 <div class="modal fade" id="luckyBox" tabindex="-1" aria-labelledby="luckyBoxLabel" aria-hidden="true">
@@ -57,6 +51,7 @@
                 <!--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
             </div>
             <div class="modal-body modal-body-lucky">
+                <p id="luckyBoxemoji" style="font-size:120px;"></p>
                 <p id="luckyBoxBody"></p>
             </div>
             <div class="modal-footer">

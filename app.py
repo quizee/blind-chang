@@ -111,8 +111,8 @@ def show_one_post():
 
 @app.route("/randint", methods=["GET"])
 def randint_get():
-    # 확률 : 1/100
-    lucky_num = random.randint(1,10000)
+    # 확률 : 1/1000
+    lucky_num = random.randint(1,1000)
     return jsonify({'lucky_num': lucky_num})
 
 @app.route("/fortune", methods=["GET"])
