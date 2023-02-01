@@ -79,7 +79,16 @@ def blind_get():
     limit = 5
     offset = (page - 1) * limit
     all_posts = list(db.posts.find({}, {'_id': False}).sort('post_id', pymongo.DESCENDING).limit(limit).skip(offset))
-    popular_posts = list(db.posts.find({},{'_id': False}).sort([('views', pymongo.DESCENDING), ('comments', pymongo.DESCENDING)]).limit(limit))
+    popular_posts = list(db.posts.aggregate([
+        {"$addFields": {"recent": {"$multiply": ["$post_id", 0.8]}}},
+        {"$addFields": {"sort_order": {"$add": ["$views", "$comments", "$recent"]}}},
+        {"$sort": {"sort_order": -1}},
+        {"$project": {"_id": 0}}
+    ]))[:5]
+
+    print(popular_posts)
+
+    #popular_posts = list(db.posts.find({},{'_id': False}).sort([('views', pymongo.DESCENDING), ('comments', pymongo.DESCENDING)]).limit(limit))
     return jsonify({'posts': all_posts, 'popular_posts': popular_posts, 'post_num': len(list(db.posts.find({}, {'_id': False}))), 'username': username})
 
 @app.route("/blind/acc", methods= ["GET"])
