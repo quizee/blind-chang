@@ -127,6 +127,7 @@ function show_post(page_num) {
             $('#button-list').append(last_button)
             // paging 끝
             // 테스트입니다. 기능 추가했습니다
+            // 테스트입니다. 기능 추가했어요!!!!
 
             // 실시간 인기 post 나열
             for (let i = 0; i < popular_posts.length; i++) {
